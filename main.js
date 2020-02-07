@@ -1,20 +1,26 @@
-window.addEventListener('load',init);
+
 
 
 //GLOBALS
 
 // Avilable Levels
 const levels= {
-  easy:5,
-  medium:3,
+  easy:15,
+  medium:13,
   hard:2
 }
+let currentLevel = levels.medium;
+const Input_levels = document.getElementById('levels');
+let time  = currentLevel;
+//select levels
+Input_levels.addEventListener('change',function(e){
+  currentLevel = Number.parseInt(this.value)+1;
+  time         = currentLevel;
+  console.log(currentLevel);
+});  
 
-//change the levels
-const currentLevel = levels.medium;
 
-let time =currentLevel;
-let score =0;
+let score = 0;
 let isPlaying;
 
 const wordInput    = document.querySelector('#word-input');
@@ -23,24 +29,26 @@ const scoreDisplay = document.querySelector('#score');
 const timeDisplay  = document.querySelector('#time');
 const message      = document.querySelector('#message');
 const seconds      = document.querySelector('#seconds');
+const start        = document.getElementById('start');
+
 
 const words =[
-  'hat',  'river','lucky',  'status','generate','stuborn','cocktail',
-  'runway',  'joke','developer','establishment',  'hero',  'football',
-  'thanks','wait','syncronous','asyncronous','direction','whichwill','love',
-  'arrange','citizen','flowers','goodmorning','nothing','happen','foods',
-  'rice','master'
-];
+  'hat',  'river','lucky',  'status','generate','stuborn','cocktail','runway',  'joke','developer','establishment',  'hero',  'football','thanks','wait','syncronous','asyncronous','direction','whichwill','love','arrange','citizen','flowers','goodmorning','nothing','happen','foods',
+  'rice','master'];
+
+  
 
 //initialze game
-
 function init(){
   //Load word from array
   showWord(words);
+
   //start matching on word wordInput
   wordInput.addEventListener('click',startMatch);
+
   //Call countdown every second
   setInterval(countdown,1000);
+
   // Chek game status
   setInterval(checkStatus,50);
 }
@@ -78,7 +86,8 @@ function showWord(wordlist){
   /// Generate radnom array Index
   const randIndex = Math.floor(Math.random()*wordlist.length);
   //Output random word
-  currentWord.innerHTML =wordlist[randIndex];
+  currentWord.innerHTML       =  wordlist[randIndex];
+  currentWord.classList.add('text-success');
 }
 function countdown()
 {
@@ -95,9 +104,14 @@ function countdown()
 }
 
 function checkStatus(){
-   if(!isPlaying & time ===0){
-      message.innerHTML = "GAME Is Over!!! ";
+   if(!isPlaying & time === 0){
+      message.innerHTML = "GAME Is Over!!!";
+      message.classList.add('text-danger');
       score=-1;
    }
 
 }
+
+
+
+start.addEventListener('click',init);
